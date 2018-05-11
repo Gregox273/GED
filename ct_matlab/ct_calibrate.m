@@ -18,3 +18,12 @@ air = find(strcmp(material.name,{'Air'}));
 n = size(X, 2);
 
 % Perform calibration
+
+air_scan = ct_detect(P, air, 2*n*scale);
+
+I_0_E = sum(air_scan);
+
+I_tot = X;
+
+Y= -log(I_tot/I_0_E);
+
