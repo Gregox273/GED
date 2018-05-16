@@ -11,15 +11,14 @@ for i=1:m-1
     filter(i) = mean([filter(i), filter(i+1)]);
 end
 
-Y = filter
+Y = filter;
 
 stairs(-(m-1)/2:(m-1)/2,filter)
 
-%for 
 
-%ram_lak_filter = abs(filter)/(2*pi).*cos(filter./w_max*pi/2).^0.001;
-
+ram_lak_filter = abs(filter)/(2*pi).*cos(filter./w_max*pi/2).^0.001;
 
 
-%size(ram_lak_filter)
-%stairs([-(m-1)/2:(m-1)/2], ram_lak_filter);
+
+size(ram_lak_filter)
+stairs([-(m-1)/2:(m-1)/2], ram_lak_filter);

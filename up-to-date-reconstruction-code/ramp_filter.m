@@ -35,5 +35,8 @@ fast_fourier = fft(X,m,2); %If answer comes out wrong, change 2 to 1
 
 filtered_signal = fast_fourier.*ram_lak_filter;
 
-Y = ifft(filtered_signal, [], 2);
+filtered = ifft(filtered_signal, angles, 2);
+
+Y = filtered(1:256, 1:256)
+
 
