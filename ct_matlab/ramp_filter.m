@@ -40,7 +40,7 @@ not_zero_coeffs = w*delta_w;  % For positive frequencies
 negative_coeffs = fliplr(not_zero_coeffs); % For negative frequencies
 filter = cat(2, filter, not_zero_coeffs(1:end), negative_coeffs(2:end));
 
-filter = abs(filter)/(2*pi);
+filter = abs(filter)/(2*pi) .* cos(filter/w_max * pi/2).^alpha;
 
 % FFT of rows:
 fast_fourier = fft(X,n,2);
