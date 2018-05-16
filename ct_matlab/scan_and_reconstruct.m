@@ -18,10 +18,16 @@ if (nargin<6)
 end
 
 % create sinogram from phantom data, with received detector values
+scan = ct_scan(P, material, X, scale, angles);
 
 % convert detector values into attenuation values
+calibration = ct_calibrate(P, material, scan, scale);
 
 % Filter
+filtered_output = ramp_filter(calibration, scale);
 
 % Back-projection
+Y = back_project(filtered_output);
 
+draw(Y)
+hold on;
