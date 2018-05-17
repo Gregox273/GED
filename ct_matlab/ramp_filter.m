@@ -24,24 +24,22 @@ m = floor(log(n)/log(2)+2);
 m = 2^m;
 
 % apply filter to all angles
-w_max = pi/scale;
-delta_w = 2*w_max/m;  % Spacing between frequency samples
-% Matlab fft gives +ve frequencies in first half of vector, then -ve
-% frequencies: need to rearrange filter to match this
+ram_lak_filter = ram_lak(m, scale);
 
-filter = delta_w/4;  % Zero frequency value
-w = 1:m/2;
-not_zero_coeffs = w*delta_w;  % For positive frequencies
-negative_coeffs = fliplr(not_zero_coeffs); % For negative frequencies
-filter = cat(2, filter, not_zero_coeffs(1:end), negative_coeffs(2:end));
+ram_lak_filter = ones(angles,1)*ram_lak_filter;
 
-filter = abs(filter)/(2*pi) .* cos(filter/w_max * pi/2).^alpha;
 
-% FFT of rows:
-fast_fourier = fft(X,m,2);
+%FFT input sinogram in the r direction for one angle. 
 
-% Turn filter into a matrix for element wise operation:
-filter = ones(angles,1)*filter;
-filter_output = fast_fourier.*filter;
-Y = real(ifft(filter_output,[],2));
-Y = Y(:,1:n);
+fast_fourier = fft(X,m,2); %If answer comes out wrong, change 2 to 1
+
+fast_fourier = fftshift(fast_fourier,2);
+
+filtered_signal = fast_fourier.*ram_lak_filter;
+
+filtered_signal = fftshift(filtered_signal,2);
+
+filtered = ifft(filtered_signal, [], 2);
+
+Y = real(filtered(1:256, 1:256));
+
