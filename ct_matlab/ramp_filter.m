@@ -25,8 +25,7 @@ m = 2^m;
 
 % apply filter to all angles
 w_max = pi/scale;
-%delta_w = 2*w_max/(m-1);  % Spacing between frequency samples
-delta_w = 2*w_max/m
+delta_w = 2*w_max/m;  % Spacing between frequency samples
 % Matlab fft gives +ve frequencies in first half of vector, then -ve
 % frequencies: need to rearrange filter to match this
 
@@ -44,4 +43,5 @@ fast_fourier = fft(X,m,2);
 % Turn filter into a matrix for element wise operation:
 filter = ones(angles,1)*filter;
 filter_output = fast_fourier.*filter;
-Y = real(ifft(filter_output,n,2));
+Y = real(ifft(filter_output,[],2));
+Y = Y(:,1:n);
