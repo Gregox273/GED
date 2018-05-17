@@ -21,7 +21,7 @@ n = size(X, 2);
 
 air_scan = ct_detect(P, air, 2*n*scale);
 
-I_0_E = sum(air_scan);
+I_0_E = sum(P);
 
 I_tot = X;
 

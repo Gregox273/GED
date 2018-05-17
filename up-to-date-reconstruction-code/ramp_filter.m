@@ -24,14 +24,14 @@ m = floor(log(n)/log(2)+2);
 m = 2^m;
 
 % apply filter to all angles
-ram_lak_filter = ram_lak(m);
+ram_lak_filter = ram_lak(m, scale);
 
 ram_lak_filter = ones(angles,1)*ram_lak_filter;
 
 
 %FFT input sinogram in the r direction for one angle. 
 
-fast_fourier = fft(X,m-1,2); %If answer comes out wrong, change 2 to 1
+fast_fourier = fft(X,m,2); %If answer comes out wrong, change 2 to 1
 
 fast_fourier = fftshift(fast_fourier,2);
 
