@@ -19,9 +19,9 @@ n = size(X, 2);
 
 % Perform calibration
 
-air_scan = ct_detect(P, air, 2*n*scale);
+air_scan = ct_detect(P, material.coeffs(:,air), 2*n*scale);
 
-I_0_E = sum(P);
+I_0_E = sum(air_scan);
 
 I_tot = X;
 
