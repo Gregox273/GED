@@ -23,14 +23,10 @@ angles = size(X,1);
 m = floor(log(n)/log(2)+2);
 m = 2^m;
 
-% delete this %%%%
-m = n;  % This makes it work, but what are we supposed to do with m?
-%%%%%%%%%%%%%%%%%%
-
 % apply filter to all angles
 w_max = pi/scale;
-delta_w = 2*w_max/(m-1);  % Spacing between frequency samples
-
+%delta_w = 2*w_max/(m-1);  % Spacing between frequency samples
+delta_w = 2*w_max/m
 % Matlab fft gives +ve frequencies in first half of vector, then -ve
 % frequencies: need to rearrange filter to match this
 
@@ -43,11 +39,9 @@ filter = cat(2, filter, not_zero_coeffs(1:end), negative_coeffs(2:end));
 filter = abs(filter)/(2*pi) .* cos(filter/w_max * pi/2).^alpha;
 
 % FFT of rows:
-fast_fourier = fft(X,n,2);
+fast_fourier = fft(X,m,2);
 
 % Turn filter into a matrix for element wise operation:
 filter = ones(angles,1)*filter;
 filter_output = fast_fourier.*filter;
-
 Y = real(ifft(filter_output,n,2));
-
