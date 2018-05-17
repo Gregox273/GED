@@ -1,22 +1,14 @@
-function [Y]=ram_lak(m, scale)
+function [Y]=ram_lak(m, scale, alpha)
+% Generates Ram-Lak filter (frequency domain) in fft shifted form where dc
+% component is in the middle of the vector with negative frequencies to the
+% left
+filter = -m/2:(m-2)/2;
+w_max = pi/scale;  % 1/(sample separation distance) = 2*f_max
 
-filter = -(m)/2:(m-2)/2;
-w_max = pi/scale;
+delta_w = 2*w_max/m;  % Spacing between discrete frequencies
 
-delta_w = 2*w_max/m;
+filter = abs(filter*delta_w);  % Coefficients for w != 0
 
-filter = abs(filter*delta_w);
+filter(m/2+1) = delta_w/4;  % DC value does not follow the above equation
 
-% for i=1:m-1
-%     filter(i) = mean([filter(i), filter(i+1)]);
-% end
-
-filter(m/2+1) = delta_w/4;
-
-%stairs(-(m-1)/2:(m-1)/2,filter);
-
-
-Y = abs(filter)/(2*pi).*cos(filter./w_max*pi/2).^0.001;
-
-
-%stairs(-(m-1)/2:(m-1)/2, Y);
+Y = abs(filter)/(2*pi).*cos(filter/w_max*pi/2).^alpha;  % Raised cosine

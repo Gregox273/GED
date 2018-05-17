@@ -24,15 +24,15 @@ m = floor(log(n)/log(2)+2);
 m = 2^m;
 
 % apply filter to all angles
-ram_lak_filter = ram_lak(m, scale);
+ram_lak_filter = ram_lak(m, scale, alpha);
 
+% Repeat filter vector to create matrix for element-wise multiplication
 ram_lak_filter = ones(angles,1)*ram_lak_filter;
 
+%FFT input sinogram in the r direction 
+fast_fourier = fft(X,m,2);
 
-%FFT input sinogram in the r direction for one angle. 
-
-fast_fourier = fft(X,m,2); %If answer comes out wrong, change 2 to 1
-
+% Not strictly necessary, but kept for readability
 fast_fourier = fftshift(fast_fourier,2);
 
 filtered_signal = fast_fourier.*ram_lak_filter;
@@ -41,5 +41,7 @@ filtered_signal = fftshift(filtered_signal,2);
 
 filtered = ifft(filtered_signal, [], 2);
 
-Y = real(filtered(1:256, 1:256));
+% Truncate the ifft result and remove any imaginary components resulting
+% from numerical error
+Y = real(filtered(:, 1:n));
 

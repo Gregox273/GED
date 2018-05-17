@@ -24,10 +24,9 @@ scan = ct_scan(P, material, X, scale, angles);
 calibration = ct_calibrate(P, material, scan, scale);
 
 % Filter
-filtered_output = ramp_filter(calibration, scale);
+filtered_output = ramp_filter(calibration, scale, alpha);
 
 % Back-projection
 Y = back_project(filtered_output); %change to filtered output later
 
-draw(Y)
-hold on;
+draw(Y);

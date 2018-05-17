@@ -20,9 +20,9 @@ if (nargin < 4)
 end
 
 % Work out residual energy for each depth and at each energy
-mu_x=coeff*depth;
+mu_x = coeff*depth;
 
-e_mu_x=exp(-(mu_x));
+e_mu_x = exp(-(mu_x));
 
-Y=X.*e_mu_x;
+Y = X.*e_mu_x;
 
