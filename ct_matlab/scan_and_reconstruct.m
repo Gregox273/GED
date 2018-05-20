@@ -33,3 +33,6 @@ Y = back_project(filtered_output);
 Y = hu(P, material, Y, scale);
 
 draw(Y);
+
+% Save as DICOM:
+create_dicom(Y, 'GED', scale * 10);
