@@ -27,6 +27,9 @@ calibration = ct_calibrate(P, material, scan, scale);
 filtered_output = ramp_filter(calibration, scale, alpha);
 
 % Back-projection
-Y = back_project(filtered_output); %change to filtered output later
+Y = back_project(filtered_output);
+
+% Hounsfield units
+Y = hu(P, material, Y, scale);
 
 draw(Y);
