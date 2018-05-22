@@ -39,4 +39,4 @@ end
 
 % ensure any data outside the reconstructed circle is set to invalid
 Y((xi.^2+yi.^2) > (n/2)^2) = -1;
-fprintf(1, '\n');
+%fprintf(1, '\n');

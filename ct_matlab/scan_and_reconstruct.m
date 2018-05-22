@@ -17,6 +17,8 @@ if (nargin<6)
   mas = 100;
 end
 
+P = P*mas*scale^2;
+
 % create sinogram from phantom data, with received detector values
 scan = ct_scan(P, material, X, scale, angles);
 

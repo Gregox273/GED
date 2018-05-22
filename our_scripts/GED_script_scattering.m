@@ -24,7 +24,7 @@ plot(x,y)
 scatter(x(10), y(10))
 
 % get estimate of y intercept for compton scattering
-log_K_compton = mean(log(mu(50:200)) + log(E(50:200)))
+log_K_compton = mean(log(mu(195:200)) + log(E(195:200)))
 y = -log(material.mev) + log_K_compton;
 
 plot(x,y)

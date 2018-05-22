@@ -24,5 +24,7 @@ mu_x = coeff*depth;
 
 e_mu_x = exp(-(mu_x));
 
-Y = X.*e_mu_x;
+Y_one = X.*e_mu_x;
+
+Y = poissrnd(Y_one);
 

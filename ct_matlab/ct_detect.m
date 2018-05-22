@@ -29,6 +29,12 @@ end
 Y = sum(Y);
 
 % add in noise model
+background_radiation = 0.0001;
+multiple_scattering_coefficient = 0.01;
+
+no_source_photons = sum(P);
+
+Y = Y + background_radiation + no_source_photons*multiple_scattering_coefficient;
 
 % ensure it is above zero for log
 Y(Y<=1) = 1;
