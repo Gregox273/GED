@@ -29,10 +29,10 @@ end
 Y = sum(Y);
 
 % add in noise model
-background_radiation = 0.0001;
+background_radiation = poissrnd(0.0001);
 multiple_scattering_coefficient = 0.01;
 
-no_source_photons = sum(P);
+no_source_photons = poissrnd(sum(P));
 
 Y = Y + background_radiation + no_source_photons*multiple_scattering_coefficient;
 
