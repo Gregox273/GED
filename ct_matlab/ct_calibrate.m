@@ -11,8 +11,9 @@ function [Y] = ct_calibrate(P, material, X, scale)
 % check inputs
 narginchk(4,4);
 
-% find coeffs corresponding to air
+% find coeffs corresponding to air & water
 air = find(strcmp(material.name,{'Air'}));
+water = find(strcmp(material.name,{'Water'}));
 
 % Get dimensions - air in ct_scan has depth 2*n*scale
 n = size(X, 2);
@@ -25,34 +26,34 @@ I_0_E = sum(air_scan);
 Y= -log(X/I_0_E);
 
 
-% perform water calibration
-depth = [0:0.1:10];
-I_0_E = sum(P);
-water_scan = photons(P, material.coeffs(:, 5), depth);
-I_tot = sum(water_scan);
-mu_tot= -log(I_tot/I_0_E);
-
-plot(mu_tot, depth)
-xlabel('mu (cm^{-1})')
-ylabel('depth (cm)')
-
-%hold on
-
-p1 = polyfit(mu_tot, depth, 4);
-estimated_depth = polyval(p1, mu_tot);
-%plot(mu_tot, estimated_depth)
-
-p2 = polyfit(mu_tot(1:50), estimated_depth(1:50), 1);
-linear_depth = polyval(p2, mu_tot);
-%plot(mu_tot, linear_depth)
-
-
-% transform Y values
-for i =1:size(Y,1)
-    for j = 1:size(Y,2)
-        initial_mu = Y(i,j);
-        depth = polyval(p1, initial_mu);
-        new_mu = depth/p2(1);
-        Y(i,j) = new_mu;
-    end
-end
+% % perform water calibration
+% depth = [0:0.1:n/10-0.1];
+% %I_0_E = sum(P);
+% water_scan = photons(P, material.coeffs(:, water), depth);
+% I_tot = sum(water_scan);
+% mu_tot= -log(I_tot/I_0_E);
+% 
+% % plot(mu_tot, depth)
+% % xlabel('mu (cm^{-1})')
+% % ylabel('depth (cm)')
+% 
+% %hold on
+% 
+% p1 = polyfit(mu_tot, depth, 4);
+% estimated_depth = polyval(p1, mu_tot);
+% %plot(mu_tot, estimated_depth)
+% 
+% p2 = polyfit(mu_tot(1:50), estimated_depth(1:50), 1);
+% linear_depth = polyval(p2, mu_tot);
+% %plot(mu_tot, linear_depth)
+% 
+% 
+% % transform Y values
+% for i =1:size(Y,1)
+%     for j = 1:size(Y,2)
+%         initial_mu = Y(i,j);
+%         depth = polyval(p1, initial_mu);
+%         new_mu = depth/p2(1);
+%         Y(i,j) = new_mu;
+%     end
+% end

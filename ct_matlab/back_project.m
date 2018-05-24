@@ -20,9 +20,9 @@ xi = ones(n,1)*[1:n] - (n/2);
 yi = xi';
 
 % back project over each angle in turn
-fprintf(1, 'Back-projecting, angle:   0');
+%fprintf(1, 'Back-projecting, angle:   0');
 for a=1:angles
-  fprintf(1, '\b\b\b\b%4i',a);
+  %fprintf(1, '\b\b\b\b%4i',a);
   
   % Form rotated coordinates for output interpolation
   % the rotation is about the middle of the image,

@@ -1,4 +1,4 @@
-function xtreme_reconstruct_all(H, FILENAME, ALPHA, METHOD)
+function xtreme_reconstruct_all(H, FILENAME, ALPHA, material, METHOD)
 
 % XTREME_RECONSTRUCT_ALL Create DICOM data from Xtreme RSQ file
 %
@@ -14,9 +14,10 @@ function xtreme_reconstruct_all(H, FILENAME, ALPHA, METHOD)
 %                   conversion
 %    'fdk' - approximate FDK algorithm for better reconstruction
 
+
 % check inputs
-narginchk(3,4);
-if (nargin<4)
+narginchk(4,5);
+if (nargin<5)
   METHOD = 'parallel';
 end
 
@@ -40,9 +41,27 @@ for f=1:H.fan_scans:H.scans
     for g=(f+H.skip_scans):(f+H.fan_scans-H.skip_scans-1)
       if (g<=H.scans)
         
-        % reconstruct scan g
+        % reconstruct scan g:
+        [f fmin fmax] = xtreme_get_rsq_slice(H, g);
+        X = xtreme_fan_to_parallel(H, f);
+        % Correct for zero column
+        X = X(:,2:end);
+        fmin = fmin(2:end);
+        fmax = fmax(2:end);
+        
+        p_cal = ct_calibrate(fmax, material, X, H.scale/10);
+        
+        % Filter
+        filtered_output = ramp_filter(p_cal, H.scale, ALPHA);
+        
+        % Back project
+        bp = back_project(filtered_output);
 
+        % Hounsfield units
+        Y = hu(fmax, material, bp, H.scale/10);
+        draw(Y);
         % save the result as a DICOM file, with reference frame z
+        create_dicom(Y, FILENAME, H.scale, H.scale, z, studyuid, seriesuid, datetime);
 
         % increment z
         z = z + 1;
