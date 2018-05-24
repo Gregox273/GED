@@ -14,17 +14,13 @@ function [Y] = photons(X, coeff, depth, mas)
 %  for the linear attenuation
 
 % check inputs
-narginchk(3,4);
-if (nargin < 4) 
-  mas = 10000;
-end
 
 % Work out residual energy for each depth and at each energy
 mu_x = coeff*depth;
 
 e_mu_x = exp(-(mu_x));
 
-Y_one = X.*e_mu_x;
+Y = X.*e_mu_x;
 
-Y = poissrnd(Y_one);
+%Y = poissrnd(Y_one);
 

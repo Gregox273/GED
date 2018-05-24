@@ -20,7 +20,7 @@ end
 P = P*mas*scale^2;
 
 % create sinogram from phantom data, with received detector values
-scan = ct_scan(P, material, X, scale, angles);
+scan = ct_scan(P, material, X, scale, angles, mas);
 
 % convert detector values into attenuation values
 calibration = ct_calibrate(P, material, scan, scale);
@@ -35,6 +35,6 @@ Y = back_project(filtered_output);
 Y = hu(P, material, Y, scale);
 
 draw(Y);
-
+hold on;
 % Save as DICOM:
 create_dicom(Y, 'GED', scale * 10);
