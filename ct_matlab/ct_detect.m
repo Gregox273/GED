@@ -37,8 +37,8 @@ no_source_photons = sum(P);
 
 Y = Y + background_radiation*ones(size(Y)) + poissrnd(no_source_photons,1,(size(Y,2)))*multiple_scattering_coefficient;
 
-back_effect = background_radiation*ones(size(Y))/Y
-scatt_effect =  no_source_photons*ones(size(Y))*multiple_scattering_coefficient/Y
+% back_effect = background_radiation*ones(size(Y))/Y;
+% scatt_effect =  no_source_photons*ones(size(Y))*multiple_scattering_coefficient/Y;
 
 % ensure it is above zero for log
 Y(Y<=1) = 1;
