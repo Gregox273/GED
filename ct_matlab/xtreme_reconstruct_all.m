@@ -43,22 +43,24 @@ for f=1:H.fan_scans:H.scans
         
         % reconstruct scan g:
         [f fmin fmax] = xtreme_get_rsq_slice(H, g);
+        fmin = ones(278,1)*fmin;
+        fmax = ones(278,1)*fmax;
+        f = -log((f-fmin)./(fmax-fmin));  % Calibrate
         X = xtreme_fan_to_parallel(H, f);
         % Correct for zero column
         X = X(:,2:end);
-        fmin = fmin(2:end);
-        fmax = fmax(2:end);
-        
-        p_cal = -log(X/sum(fmax));
+%         fmin = fmin(2:end);
+%         fmax = fmax(2:end);
         
         % Filter
-        filtered_output = ramp_filter(p_cal, H.scale/10, ALPHA);
+        filtered_output = ramp_filter(X, H.scale/10, ALPHA);
         
         % Back project
         bp = back_project(filtered_output);
 
         % Hounsfield units
-        Y = hu(fmax, material, bp, H.scale/10);
+        %Y = hu(, material, bp, H.scale/10);
+        Y = bp;
         draw(Y);
         % save the result as a DICOM file, with reference frame z
         create_dicom(Y, FILENAME, H.scale, H.scale, z, studyuid, seriesuid, datetime);
