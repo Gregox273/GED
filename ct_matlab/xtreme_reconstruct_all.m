@@ -49,7 +49,7 @@ for f=1:H.fan_scans:H.scans
         fmin = fmin(2:end);
         fmax = fmax(2:end);
         
-        p_cal = ct_calibrate(fmax, material, X, H.scale/10);
+        p_cal = -log(X/sum(fmax));
         
         % Filter
         filtered_output = ramp_filter(p_cal, H.scale/10, ALPHA);
