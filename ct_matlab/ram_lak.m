@@ -2,10 +2,11 @@ function [Y]=ram_lak(m, scale, alpha)
 % Generates Ram-Lak filter (frequency domain) in fft shifted form where dc
 % component is in the middle of the vector with negative frequencies to the
 % left
+factor = 32;
 
-m_new=m/128
+m_new=m/factor;
 
-w_max = pi/(scale*128);  % 1/(sample separation distance) = 2*f_max
+w_max = pi/(scale*factor);  % 1/(sample separation distance) = 2*f_max
 
 filter = -m_new/2:(m_new-2)/2;
 
